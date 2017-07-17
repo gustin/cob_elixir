@@ -6,7 +6,7 @@ defmodule CobElixir.Application do
     import Supervisor.Spec
 
     children = [
-      worker(Task, [CobElixir, :accept, []]),
+      worker(Task, [CobElixir, :accept, []])
     ]
 
     opts = [strategy: :one_for_one, name: CobElixir.Supervisor]

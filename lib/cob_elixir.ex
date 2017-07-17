@@ -16,7 +16,7 @@ defmodule CobElixir do
 
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
-    {:ok, pid} = serve(client)
+    :ok = serve(client)
     loop_acceptor(socket)
   end
 
@@ -34,6 +34,6 @@ defmodule CobElixir do
   end
 
   defp write_line(line, socket) do
-    :gen_tcp.send(socket, "200")
+    :gen_tcp.send(socket, "200 \r\n")
   end
 end
