@@ -6,14 +6,13 @@ defmodule CobElixirTest do
     :ok = Application.start(:cob_elixir)
   end
 
-  test "that a server is accepting connections" do
-    opts = [:binary, active: true]
-    assert {:ok, _socket} = :gen_tcp.connect('localhost', 8080, opts)
+  setup do
+    opts = [:binary, packet: :line, active: false]
+    {:ok, socket} = :gen_tcp.connect('localhost', 8080, opts)
+    {:ok, socket: socket}
   end
 
-  test "that server handles a GET request" do
-    opts = [:binary, packet: :line, active: false]
-    {:ok, socket } = :gen_tcp.connect('localhost', 8080, opts)
+  test "that server handles a GET request", %{socket: socket} do
     :ok = :gen_tcp.send(socket, "GET /hello-world HTTP/1.1 \r\n")
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
     assert data == "200 \r\n"
