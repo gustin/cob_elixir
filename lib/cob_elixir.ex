@@ -36,8 +36,8 @@ defmodule CobElixir do
   end
 
   defp write_response({:get, {:url, url}}, socket) do
-  #    status = CobElixir.Response.two_hundread_status
-    status = "HTTP/1.1 200 OK\r\n"
+    #    status = CobElixir.Response.two_hundread_status
+    status = "HTTP/1.1 200\r\nContent-Type: text/html\r\n\r\nHello World!"
     Logger.info "Write #{status}"
     :gen_tcp.send(socket, status)
   end
