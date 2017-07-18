@@ -14,6 +14,7 @@ defmodule CobElixir do
     loop_acceptor(socket)
   end
 
+
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     :ok = serve(client)
@@ -30,12 +31,13 @@ defmodule CobElixir do
 
   defp read_request(socket) do
     {:ok, data} = :gen_tcp.recv(socket, 0)
-    data = CobElixir.Request.parse(data)
-    data
+    CobElixir.Request.parse(data)
   end
 
   defp write_response({:get, {:url, url}}, socket) do
-    :gen_tcp.send(socket, "200 \r\n")
+  #    status = CobElixir.Response.two_hundread_status
+    status = "HTTP/1.1 200 OK\r\n"
+    :gen_tcp.send(socket, status)
   end
 
   defp write_response({:error, _}, socket) do

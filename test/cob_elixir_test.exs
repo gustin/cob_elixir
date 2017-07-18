@@ -15,7 +15,7 @@ defmodule CobElixirTest do
   test "that server handles a GET request", %{socket: socket} do
     :ok = :gen_tcp.send(socket, "GET /hello-world HTTP/1.1\r\n")
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
-    assert data == "200 \r\n"
+    assert data == "HTTP/1.1 200 OK\r\n"
   end
 
   test "that server only responds to GET requests", %{socket: socket} do
