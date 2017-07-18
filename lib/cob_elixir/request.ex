@@ -8,7 +8,7 @@ defmodule CobElixir.Request do
       {:get, {:url, "hello-world"}}
   """
   def parse("GET" <> request) do
-    [_, url, _] = String.split(request, " ")
+    [_, url | rest] = String.split(request, " ")
     {:get, {:url, url}}
   end
 
