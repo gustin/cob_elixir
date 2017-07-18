@@ -37,4 +37,8 @@ defmodule CobElixir do
   defp write_response({:get, {:url, url}}, socket) do
     :gen_tcp.send(socket, "200 \r\n")
   end
+
+  defp write_response({:error, _}, socket) do
+    :gen_tcp.send(socket, "500 \r\n")
+  end
 end
