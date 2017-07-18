@@ -22,18 +22,19 @@ defmodule CobElixir do
 
   defp serve(socket) do
     socket
-    |> read_line()
-    |> write_line(socket)
+    |> read_request()
+    |> write_response(socket)
 
     serve(socket)
   end
 
-  defp read_line(socket) do
+  defp read_request(socket) do
     {:ok, data} = :gen_tcp.recv(socket, 0)
+    data = CobElixir.Request.parse(data)
     data
   end
 
-  defp write_line(line, socket) do
+  defp write_response({:get, {:url, url}}, socket) do
     :gen_tcp.send(socket, "200 \r\n")
   end
 end
