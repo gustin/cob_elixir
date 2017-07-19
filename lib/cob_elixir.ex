@@ -5,11 +5,7 @@ defmodule CobElixir do
     opts = [:binary, packet: :raw, active: false, reuseaddr: true]
     {:ok, socket} = :gen_tcp.listen(8080, opts)
     Logger.info "Accepting connections on port 8080"
-    loop_acceptor(socket)
-  end
 
-
-  defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     :ok = serve(client)
   end
@@ -20,6 +16,7 @@ defmodule CobElixir do
     |> write_response(client)
 
     :gen_tcp.close(client)
+    serve(client)
   end
 
   defp read_request(socket) do
