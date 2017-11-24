@@ -29,6 +29,11 @@ defmodule CobElixir do
     :gen_tcp.send(socket, status)
   end
 
+  defp write_response({:post, {:url, url}}, socket) do
+    status = CobElixir.Status.two_hundread_status
+    :gen_tcp.send(socket, status)
+  end
+
   defp write_response({:error, _}, socket) do
     :gen_tcp.send(socket, "500 \r\n")
   end

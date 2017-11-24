@@ -13,11 +13,24 @@ defmodule CobElixir.Request do
   end
 
   @doc ~S"""
+  Parses a POST request.
+
+  ## Examples
+
+      iex> CobElixir.Request.parse "POST /form HTTP/1.1\r\n My=data\r\n"
+      {:post, {:url, "hello-world"}}
+  """
+  def parse("POST" <> request) do
+    [_, url | rest] = String.split(request, " ")
+    {:post, {:url, url}}
+  end
+
+  @doc ~S"""
   Parses everything else.
 
   ## Examples
 
-      iex> CobElixir.Request.parse "POST hello-world HTTP/1.1\r\n"
+      iex> CobElixir.Request.parse "PUT hello-world HTTP/1.1\r\n"
       {:error, :unsupported}
   """
   def parse(request) do

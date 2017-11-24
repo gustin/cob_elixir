@@ -4,7 +4,7 @@ defmodule CobElixir.Mixfile do
   def project do
     [app: :cob_elixir,
      version: "0.1.0",
-     elixir: "~> 1.4",
+     elixir: "~> 1.5",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -16,6 +16,6 @@ defmodule CobElixir.Mixfile do
   end
 
   defp deps do
-    []
+    [{:mix_test_watch, "~> 0.5", only: :dev, runtime: false}]
   end
 end
