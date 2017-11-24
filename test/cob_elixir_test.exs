@@ -23,4 +23,10 @@ defmodule CobElixirTest do
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
     assert data == "HTTP/1.1 200 OK\r\n"
   end
+
+  test "that server handles a PUT request", %{socket: socket} do
+    :ok = :gen_tcp.send(socket, "PUT /form HTTP/1.1\r\n My=data\r\n")
+    {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
+    assert data == "HTTP/1.1 200 OK\r\n"
+  end
 end
