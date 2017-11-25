@@ -4,8 +4,8 @@ defmodule CobElixir.Request do
 
   ## Examples
 
-      iex> CobElixir.Request.parse "GET hello-world HTTP/1.1\r\n"
-      {:get, {:url, "hello-world"}}
+      iex> CobElixir.Request.parse "GET hello-world.html HTTP/1.1\r\n"
+      {:get, {:content-type, "text/html"}, {:url, "hello-world"}}
   """
   def parse("GET" <> request) do
     [_, url | rest] = String.split(request, " ")

@@ -29,4 +29,13 @@ defmodule CobElixirTest do
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
     assert data == "HTTP/1.1 200 OK\r\n"
   end
+
+  test "that server handles images", %{socket: socket} do
+    :ok = :gen_tcp.send(socket, "GET /image.gif HTTP/1.1\r\n")
+    {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
+    assert data == ~s"""
+                    HTTP/1.1 200 OK\r
+                    Content-Type: image/gif\r
+                    """
+  end
 end
