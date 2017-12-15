@@ -1,10 +1,12 @@
 defmodule CobElixir.Request do
+  require IEx
+
   @doc ~S"""
   Parses a GET request.
 
   ## Examples
 
-      iex> CobElixir.Request.parse "GET hello-world.html HTTP/1.1\r\n"
+      iex> CobElixir.Request.parse "GET /hello-world.html HTTP/1.1\r\n"
       {:get, {:content_type, "text/html"}}
 
       iex> CobElixir.Request.parse "POST /form HTTP/1.1\r\n My=data\r\n"
@@ -18,7 +20,8 @@ defmodule CobElixir.Request do
   """
   def parse("GET" <> request) do
     [_, url | rest] = String.split(request, " ")
-    {:get, {:content_type, CobElixir.MimeType.content_type(rest)}}
+    [_, extension] = String.split(url, ".")
+    {:get, {:content_type, CobElixir.MimeType.content_type(extension)}}
   end
 
   def parse("POST" <> request) do
