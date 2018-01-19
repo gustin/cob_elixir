@@ -4,6 +4,9 @@ defmodule CobElixir.Request do
 
   ## Examples
 
+      iex> CobElixir.Request.parse "GET / HTTP/1.1\r\n"
+      {:get, {:content_type, "text/html"}}
+
       iex> CobElixir.Request.parse "GET /hello-world.html HTTP/1.1\r\n"
       {:get, {:content_type, "text/html"}}
 
