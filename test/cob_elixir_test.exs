@@ -7,15 +7,18 @@ defmodule CobElixirTest do
   end
 
   setup do
-    opts = [:binary, packet: :line, active: false]
+    opts = [:binary, packet: :raw, active: false]
     {:ok, socket} = :gen_tcp.connect('localhost', 8080, opts)
     {:ok, socket: socket}
   end
 
   test "that server handles a GET request", %{socket: socket} do
-    :ok = :gen_tcp.send(socket, "GET /hello-world HTTP/1.1\r\n")
+    :ok = :gen_tcp.send(socket, "GET /hello-world.html HTTP/1.1\r\n")
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)
-    assert data == "HTTP/1.1 200 OK\r\n"
+    assert data == ~s"""
+                    HTTP/1.1 200 OK\r
+                    Content-Type: text/html\r
+                    """
   end
 
   test "that server handles a POST request", %{socket: socket} do

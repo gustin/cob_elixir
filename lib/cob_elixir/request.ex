@@ -1,6 +1,4 @@
 defmodule CobElixir.Request do
-  require IEx
-
   @doc ~S"""
   Parses a GET request.
 

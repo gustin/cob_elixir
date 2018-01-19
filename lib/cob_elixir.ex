@@ -24,18 +24,19 @@ defmodule CobElixir do
     CobElixir.Request.parse(data)
   end
 
-  defp write_response({:get, {:url, url}}, socket) do
-    status = CobElixir.Status.two_hundread_status
-    :gen_tcp.send(socket, status)
+  defp write_response({:get, {:content_type, content_type}}, socket) do
+    status = CobElixir.HTTPHeader.Status.success
+    content_type = CobElixir.HTTPHeader.ContentType.mime_type(content_type)
+    :gen_tcp.send(socket, "#{status}#{content_type}")
   end
 
   defp write_response({:post, {:url, url}}, socket) do
-    status = CobElixir.Status.two_hundread_status
+    status = CobElixir.HTTPHeader.Status.success
     :gen_tcp.send(socket, status)
   end
 
   defp write_response({:put, {:url, url}}, socket) do
-    status = CobElixir.Status.two_hundread_status
+    status = CobElixir.HTTPHeader.Status.success
     :gen_tcp.send(socket, status)
   end
 
