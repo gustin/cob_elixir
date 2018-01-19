@@ -14,11 +14,12 @@ defmodule CobElixir.MimeType do
 
   @mime_types %{
     "css"  => "text/css",
-    "html" => "text/html",
     "gif"  => "image/gif",
+    "html" => "text/html",
     "jpeg" => "image/jpeg", "jpg" => "image/jpeg",
     "js"   => "application/javascript",
-    "png"  => "image/png"
+    "png"  => "image/png",
+    "txt"  => "text/plain"
   }
 
   for {extension, type} <- @mime_types do
