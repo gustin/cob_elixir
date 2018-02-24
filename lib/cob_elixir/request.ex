@@ -21,8 +21,8 @@ defmodule CobElixir.Request do
   def parse("GET" <> get_request) do
     get_request |>
       String.trim |>
-      identify_home_page_request |>
-      break_apart
+      identify_type_of_request |>
+      assemble_with_content_type
   end
 
   def parse("POST" <> post_request) do
@@ -39,23 +39,23 @@ defmodule CobElixir.Request do
     {:error, :unsupported}
   end
 
-  defp identify_home_page_request(request) do
+  defp identify_type_of_request(request) do
     [url, _] = String.split(request, " ")
     cond do
       String.contains?(url, ".") ->
         {:page, request}
       true ->
-        {:home, request}
+        {:root, request}
     end
   end
 
-  defp break_apart({:home, request}) do
+  defp assemble_with_content_type({:root, request}) do
     get_request    = String.trim(request)
     [url, version] = String.split(get_request, " ")
     {:get, {:content_type, "text/html"}}
   end
 
-  defp break_apart({:page, request}) do
+  defp assemble_with_content_type({:page, request}) do
     [url, version] = String.split(request, " ")
     [file_name, extension]      = String.split(url, ".")
     {:get, {:content_type, CobElixir.MimeType.content_type(extension)}}
