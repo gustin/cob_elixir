@@ -2,10 +2,9 @@ defmodule CobElixir do
   require Logger
 
   def accept do
-    opts = [:binary, packet: :raw, active: false,
-            reuseaddr: true, backlog: 1024]
-    {:ok, http_client} = :gen_tcp.listen(8080, opts)
-    Logger.info "Accepting connections on port 8080"
+    opts = [:binary, packet: :raw, active: false, reuseaddr: true]
+    {:ok, http_client} = :gen_tcp.listen(8888, opts)
+    Logger.info "Accepting connections on port 8888"
 
     {:ok, http_client} = :gen_tcp.accept(http_client)
     :ok = serve(http_client)
@@ -25,8 +24,9 @@ defmodule CobElixir do
     {CobElixir.Request.parse(data), http_client}
   end
 
-  defp write_http_response({{:get, {:content_type, content_type}},
-                           http_client}) do
+  defp write_http_response({{:get, {:content_type, content_type},
+                            {:body, content}},
+                            http_client}) do
     status = CobElixir.HTTPHeader.Status.success
     content_type = CobElixir.HTTPHeader.ContentType.mime_type(content_type)
     :gen_tcp.send(http_client, "#{status}#{content_type}")

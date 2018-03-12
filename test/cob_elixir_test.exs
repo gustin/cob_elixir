@@ -8,10 +8,11 @@ defmodule CobElixirTest do
 
   setup do
     opts = [:binary, packet: :raw, active: false]
-    {:ok, socket} = :gen_tcp.connect('localhost', 8080, opts)
+    {:ok, socket} = :gen_tcp.connect('localhost', 8888, opts)
     {:ok, socket: socket}
   end
 
+  @tag :wip
   test "that server handles a GET for the home page", %{socket: socket} do
     :ok = :gen_tcp.send(socket, "GET / HTTP/1.1\r\n")
     {:ok, data} = :gen_tcp.recv(socket, 0, 1000)

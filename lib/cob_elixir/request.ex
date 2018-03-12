@@ -4,10 +4,10 @@ defmodule CobElixir.Request do
 
   ## Examples
       iex> CobElixir.Request.parse "GET / HTTP/1.1\r\n"
-      {:get, {:content_type, "text/html"}}
+      {:get, {:content_type, "text/html"}, {:body, "<html>Hi</html>"}}
 
       iex> CobElixir.Request.parse "GET /hello-world.html HTTP/1.1\r\n"
-      {:get, {:content_type, "text/html"}}
+      {:get, {:content_type, "text/html"}, {:body, "<html>Hi</html>"}}
 
       iex> CobElixir.Request.parse "POST /form HTTP/1.1\r\n My=data\r\n"
       {:post, {:url, "/form"}}
@@ -43,7 +43,7 @@ defmodule CobElixir.Request do
     [url, _] = String.split(request, " ")
     cond do
       String.contains?(url, ".") ->
-        {:page, request}
+        {:resource, request}
       true ->
         {:root, request}
     end
@@ -52,13 +52,16 @@ defmodule CobElixir.Request do
   defp assemble_with_content_type({:root, request}) do
     get_request    = String.trim(request)
     [url, version] = String.split(get_request, " ")
-    {:get, {:content_type, "text/html"}}
+    {:get, {:content_type, "text/html"},
+           {:body, CobElixir.Body.generate(url)} }
   end
 
-  defp assemble_with_content_type({:page, request}) do
+  defp assemble_with_content_type({:resource, request}) do
     [url, version] = String.split(request, " ")
     [file_name, extension]      = String.split(url, ".")
-    {:get, {:content_type, CobElixir.MimeType.content_type(extension)}}
+    content_type = CobElixir.MimeType.content_type(extension)
+    {:get, {:content_type, content_type},
+           {:body, CobElixir.Body.generate(url)} }
   end
 end
 
