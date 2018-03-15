@@ -19,7 +19,7 @@ defmodule CobElixirTest do
     assert data == ~s"""
                     HTTP/1.1 200 OK\r
                     Content-Type: text/html\r
-                    Body: <html>Hi</html>\r
+                    <html>Hi</html>\r
                     """
   end
 
@@ -29,7 +29,7 @@ defmodule CobElixirTest do
     assert data == ~s"""
                     HTTP/1.1 200 OK\r
                     Content-Type: text/html\r
-                    Body: <html>Hi</html>\r
+                    <html>Hi</html>\r
                     """
   end
 
@@ -51,7 +51,8 @@ defmodule CobElixirTest do
     assert data == ~s"""
                     HTTP/1.1 200 OK\r
                     Content-Type: image/gif\r
-                    Body: <html>Hi</html>\r
+                    <html>Hi</html>\r
+
                     """
   end
 end
