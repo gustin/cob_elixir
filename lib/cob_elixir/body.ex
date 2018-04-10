@@ -1,7 +1,7 @@
 defmodule CobElixir.Body do
 
   @doc ~S"""
-  Generate the Content-Type HTTP Header.
+  Load the body and return the contents from a file.
 
   ## Examples
 
@@ -10,7 +10,16 @@ defmodule CobElixir.Body do
 
     #iex> CobElixir.HTTPHeader.ContentType.mime_type("image/jpg")
   """
-  def generate(url) do
+  def content(url, content_type) do
+    content_type |> String.split("/") |> load_body
+  end
+
+  defp load_body(["text", type]) do
     "<html>Hi</html>"
+  end
+
+  defp load_body(["image", extension]) do
+    {:ok, data} = File.read("test/cob_elixir/images/image.jpeg")
+    data
   end
 end

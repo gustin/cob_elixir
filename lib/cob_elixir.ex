@@ -12,8 +12,8 @@ defmodule CobElixir do
 
   defp serve(http_client) do
     http_client
-    |> read_http_request()
-    |> write_http_response()
+    |> read_http_request
+    |> write_http_response
 
     :gen_tcp.close(http_client)
     serve(http_client)
@@ -29,8 +29,8 @@ defmodule CobElixir do
                             http_client}) do
     status = CobElixir.HTTPHeader.Status.success
     content_type = CobElixir.HTTPHeader.ContentType.mime_type(content_type)
-    body = "Body: #{content}\r\n"
-    :gen_tcp.send(http_client, "#{status}#{content_type}#{body}")
+    body = "#{content}\r\n"
+    :gen_tcp.send(http_client, "#{status}#{content_type}\n#{body}")
   end
 
   defp write_http_response({{:post, {:url, url}}, http_client}) do

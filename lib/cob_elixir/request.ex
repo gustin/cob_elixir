@@ -53,7 +53,7 @@ defmodule CobElixir.Request do
     get_request    = String.trim(request)
     [url, version] = String.split(get_request, " ")
     {:get, {:content_type, "text/html"},
-           {:body, CobElixir.Body.generate(url)} }
+           {:body, CobElixir.Body.content(url, "text/html")} }
   end
 
   defp assemble_with_content_type({:resource, request}) do
@@ -61,7 +61,7 @@ defmodule CobElixir.Request do
     [file_name, extension]      = String.split(url, ".")
     content_type = CobElixir.MimeType.content_type(extension)
     {:get, {:content_type, content_type},
-           {:body, CobElixir.Body.generate(url)} }
+           {:body, CobElixir.Body.content(url, content_type)} }
   end
 end
 
